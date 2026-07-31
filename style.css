@@ -41,6 +41,25 @@ body {
   overflow: hidden;
 }
 
+/* ---------- Desktop watermark ---------- */
+
+.desktop-watermark {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: "MS Sans Serif", Tahoma, sans-serif;
+  font-weight: bold;
+  font-size: clamp(32px, 5vw, 64px);
+  letter-spacing: 3px;
+  color: rgba(25, 210, 210, 0.35);
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.45), -1px -1px 0px rgba(255, 255, 255, 0.06);
+  white-space: nowrap;
+  pointer-events: none;
+  user-select: none;
+  z-index: 0;
+}
+
 /* ---------- Desktop icons ---------- */
 
 .icon {
@@ -448,6 +467,16 @@ body {
 /* ---------- Mobile: contact / recycle bin / solitaire windows ---------- */
 
 @media (max-width: 720px) {
+  .desktop-watermark {
+    top: 50%;
+    left: auto;
+    right: 4px;
+    transform: translateY(-50%) rotate(180deg);
+    writing-mode: vertical-rl;
+    font-size: 26px;
+    letter-spacing: 2px;
+  }
+
   .win98-window {
     position: fixed !important;
     left: 6px !important;
