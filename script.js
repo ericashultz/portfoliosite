@@ -99,6 +99,7 @@
         icon.classList.remove("dragging");
         if (moved) {
           icon.dataset.suppressClick = "1";
+          icon.dataset.userPositioned = "1";
         }
       },
       onMove: function () {
@@ -114,6 +115,29 @@
       handleIconAction(icon.dataset.action);
     });
   });
+
+  /* ---------- Mobile: align Recycle Bin with Contact + watermark ---------- */
+
+  function positionRecycleBinForMobile() {
+    var bin = document.querySelector('.icon[data-action="recycle-bin"]');
+    var contact = document.querySelector('.icon[data-action="contact"]');
+    var watermark = document.querySelector(".desktop-watermark");
+    var desktop = document.getElementById("desktop");
+    if (!bin || !contact || !watermark || !desktop) return;
+    if (bin.dataset.userPositioned) return;
+    if (!isMobile()) return;
+
+    var desktopRect = desktop.getBoundingClientRect();
+    var binRect = bin.getBoundingClientRect();
+    var contactRect = contact.getBoundingClientRect();
+    var watermarkRect = watermark.getBoundingClientRect();
+
+    bin.style.left = (watermarkRect.right - desktopRect.left - binRect.width) + "px";
+    bin.style.top = (contactRect.top - desktopRect.top) + "px";
+  }
+
+  positionRecycleBinForMobile();
+  window.addEventListener("resize", positionRecycleBinForMobile);
 
   function handleIconAction(action) {
     switch (action) {

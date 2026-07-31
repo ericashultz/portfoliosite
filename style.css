@@ -477,12 +477,6 @@ body {
     letter-spacing: normal;
   }
 
-  .icon[data-action="recycle-bin"] {
-    left: auto !important;
-    right: 20px !important;
-    top: 470px !important;
-  }
-
   .win98-window {
     position: fixed !important;
     left: 6px !important;
