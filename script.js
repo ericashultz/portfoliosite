@@ -130,7 +130,7 @@
         openWindow("contactWindow");
         break;
       case "resume":
-        window.open("resume.pdf", "_blank");
+        window.open("assets/Erica Shultz Resume.pdf", "_blank");
         break;
       case "recycle-bin":
         openWindow("binWindow");

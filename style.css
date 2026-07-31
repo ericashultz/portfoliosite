@@ -49,9 +49,9 @@ body {
   left: 50%;
   transform: translate(-50%, -50%);
   font-family: "MS Sans Serif", Tahoma, sans-serif;
-  font-weight: bold;
-  font-size: clamp(32px, 5vw, 64px);
-  letter-spacing: 3px;
+  font-weight: normal;
+  font-size: clamp(24px, 7.82vw, 100px);
+  letter-spacing: normal;
   color: rgba(25, 210, 210, 0.35);
   text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.45), -1px -1px 0px rgba(255, 255, 255, 0.06);
   white-space: nowrap;
@@ -470,11 +470,11 @@ body {
   .desktop-watermark {
     top: 50%;
     left: auto;
-    right: 4px;
+    right: 8.5vw;
     transform: translateY(-50%) rotate(180deg);
     writing-mode: vertical-rl;
-    font-size: 26px;
-    letter-spacing: 2px;
+    font-size: clamp(32px, 11.24vh, 110px);
+    letter-spacing: normal;
   }
 
   .win98-window {
