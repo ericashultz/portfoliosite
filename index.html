@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<title>Erica Shultz — Portfolio</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div id="desktop">
+  <div class="icon" data-action="case-study" style="left:20px; top:20px;">
+    <img src="assets/Case Study.png" alt="">
+    <span>Case Study</span>
+  </div>
+  <div class="icon" data-action="figma" style="left:20px; top:110px;">
+    <img src="assets/Figma.png" alt="">
+    <span>Figma</span>
+  </div>
+  <div class="icon" data-action="vans-work" style="left:20px; top:200px;">
+    <img src="assets/Vans Work.png" alt="">
+    <span>Vans Work</span>
+  </div>
+  <div class="icon" data-action="resume" style="left:20px; top:290px;">
+    <img src="assets/Resume.png" alt="">
+    <span>Resume</span>
+  </div>
+  <div class="icon" data-action="linkedin" style="left:20px; top:380px;">
+    <img src="assets/LinkedIn.png" alt="">
+    <span>LinkedIn</span>
+  </div>
+  <div class="icon" data-action="contact" style="left:20px; top:470px;">
+    <img src="assets/Contact.png" alt="">
+    <span>Contact</span>
+  </div>
+  <div class="icon" data-action="recycle-bin" style="left:20px; top:560px;">
+    <img src="assets/Recycle Bin.png" alt="">
+    <span>Recycle Bin</span>
+  </div>
+</div>
+
+<!-- Contact window -->
+<div class="win98-window" id="contactWindow" hidden style="left:160px; top:80px;">
+  <div class="win98-titlebar" data-drag-handle>
+    <img src="assets/Contact.png" alt="">
+    <span>Contact</span>
+    <div class="win98-titlebar-btn" data-close="contactWindow">✕</div>
+  </div>
+  <div class="win98-window-body">
+    <p class="contact-intro">If you'd like to get in touch, just fill out this form. You can also email me directly at <a href="mailto:ershultz@gmail.com">ershultz@gmail.com</a>.</p>
+    <form id="contactForm">
+      <div class="contact-form-row">
+        <label class="contact-field">First Name (required)
+          <input type="text" name="firstName" required>
+        </label>
+        <label class="contact-field">Last Name (required)
+          <input type="text" name="lastName" required>
+        </label>
+      </div>
+      <label class="contact-field">Email Address (required)
+        <input type="email" name="email" required>
+      </label>
+      <label class="contact-field">Message (required)
+        <textarea name="message" rows="5" required></textarea>
+      </label>
+      <div class="contact-actions">
+        <button type="submit" class="win98-btn">Send</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Recycle Bin window -->
+<div class="win98-window" id="binWindow" hidden style="left:200px; top:120px; width:260px;">
+  <div class="win98-titlebar" data-drag-handle>
+    <img src="assets/Recycle Bin.png" alt="">
+    <span>Recycle Bin</span>
+    <div class="win98-titlebar-btn" data-close="binWindow">✕</div>
+  </div>
+  <div class="win98-window-body">
+    <img src="assets/Recycle Bin.png" alt="" width="40" height="40">
+    <div>This folder is empty.</div>
+  </div>
+</div>
+
+<!-- Solitaire window -->
+<div class="win98-window" id="solitaireWindow" hidden style="left:120px; top:40px;">
+  <div class="win98-titlebar" data-drag-handle>
+    <img src="assets/Solitaire.png" alt="">
+    <span>Solitaire</span>
+    <div class="win98-titlebar-btn" data-close="solitaireWindow">✕</div>
+  </div>
+  <div class="win98-window-body">
+    <div id="solitaireBoard">
+      <div class="sol-pile sol-stock" id="solStock"></div>
+      <div class="sol-pile sol-waste" id="solWaste"></div>
+      <div class="sol-foundations">
+        <div class="sol-pile sol-foundation" data-suit="S" id="foundation-S"></div>
+        <div class="sol-pile sol-foundation" data-suit="H" id="foundation-H"></div>
+        <div class="sol-pile sol-foundation" data-suit="D" id="foundation-D"></div>
+        <div class="sol-pile sol-foundation" data-suit="C" id="foundation-C"></div>
+      </div>
+    </div>
+    <div class="sol-tableau" id="solTableau">
+      <div class="sol-pile" data-col="0" id="tableau-0"></div>
+      <div class="sol-pile" data-col="1" id="tableau-1"></div>
+      <div class="sol-pile" data-col="2" id="tableau-2"></div>
+      <div class="sol-pile" data-col="3" id="tableau-3"></div>
+      <div class="sol-pile" data-col="4" id="tableau-4"></div>
+      <div class="sol-pile" data-col="5" id="tableau-5"></div>
+      <div class="sol-pile" data-col="6" id="tableau-6"></div>
+    </div>
+    <div class="sol-controls">
+      <button class="win98-btn" id="solNewGame">New Game</button>
+      <span class="sol-win-message" id="solWinMessage" hidden>You win!</span>
+    </div>
+  </div>
+</div>
+
+<div id="startMenu" hidden>
+  <div class="start-menu-side">Windows98</div>
+  <div class="start-menu-items">
+    <div class="start-menu-item" id="startSolitaire">
+      <img src="assets/Solitaire.png" alt="">
+      <span>Solitaire</span>
+    </div>
+  </div>
+</div>
+
+<div id="taskbar">
+  <div class="win98-btn" id="startBtn">
+    <img src="assets/windows-0.png" alt="">
+    <span>Start</span>
+  </div>
+  <div id="taskbarSpacer"></div>
+  <div id="clock">
+    <img src="assets/Clock.png" alt="">
+    <span id="clockTime">12:00 PM</span>
+  </div>
+</div>
+
+<script src="script.js"></script>
+<script src="solitaire.js"></script>
+</body>
+</html>

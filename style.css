@@ -1,0 +1,445 @@
+@font-face {
+  font-family: "MS Sans Serif";
+  src: url("fonts/ms-w98-ui-main/Web-TT/MSW98UI-Regular.woff2") format("woff2"),
+       url("fonts/ms-w98-ui-main/Web-TT/MSW98UI-Regular.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "MS Sans Serif";
+  src: url("fonts/ms-w98-ui-main/Web-TT/MSW98UI-Bold.woff2") format("woff2"),
+       url("fonts/ms-w98-ui-main/Web-TT/MSW98UI-Bold.woff") format("woff");
+  font-weight: bold;
+  font-style: normal;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  font-family: "MS Sans Serif", Tahoma, sans-serif;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background-color: #008080;
+  position: relative;
+}
+
+#desktop {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 32px;
+  overflow: hidden;
+}
+
+/* ---------- Desktop icons ---------- */
+
+.icon {
+  position: absolute;
+  width: 76px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 4px;
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: none;
+}
+
+.icon img {
+  width: 40px;
+  height: 40px;
+  image-rendering: pixelated;
+  pointer-events: none;
+}
+
+.icon span {
+  color: #fff;
+  font-size: 12px;
+  line-height: 1.2;
+  text-align: center;
+  text-shadow: 1px 1px 1px #000;
+  padding: 1px 3px;
+  pointer-events: none;
+  word-break: break-word;
+}
+
+.icon.selected span {
+  background: #000080;
+  outline: 1px dotted #fff;
+}
+
+.icon.dragging {
+  opacity: 0.85;
+  z-index: 500;
+}
+
+/* ---------- Taskbar ---------- */
+
+#taskbar {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 32px;
+  background: #c0c0c0;
+  border-top: 2px solid #fff;
+  display: flex;
+  align-items: center;
+  padding: 3px 3px 3px 3px;
+  z-index: 1000;
+}
+
+.win98-btn {
+  background: #c0c0c0;
+  border: 2px solid;
+  border-color: #fff #808080 #808080 #fff;
+  font-family: "MS Sans Serif", Tahoma, sans-serif;
+}
+
+.win98-btn:active,
+.win98-btn.active {
+  border-color: #808080 #fff #fff #808080;
+  padding-top: 1px;
+}
+
+#startBtn {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  height: 24px;
+  padding: 0 8px;
+  font-weight: bold;
+  font-size: 13px;
+  color: #000;
+}
+
+#startBtn img {
+  width: 18px;
+  height: 18px;
+  image-rendering: pixelated;
+}
+
+#taskbarSpacer {
+  flex: 1;
+}
+
+#clock {
+  height: 24px;
+  padding: 0 8px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  border: 1px solid;
+  border-color: #808080 #fff #fff #808080;
+  background: #c0c0c0;
+  font-size: 12px;
+  color: #000;
+}
+
+#clock img {
+  width: 16px;
+  height: 16px;
+  image-rendering: pixelated;
+}
+
+/* ---------- Start menu ---------- */
+
+#startMenu {
+  position: absolute;
+  left: 2px;
+  bottom: 34px;
+  width: 180px;
+  background: #c0c0c0;
+  border: 2px solid;
+  border-color: #fff #808080 #808080 #fff;
+  box-shadow: 2px 2px 6px rgba(0,0,0,0.5);
+  display: flex;
+  z-index: 1500;
+  padding: 2px;
+}
+
+#startMenu[hidden] {
+  display: none;
+}
+
+.start-menu-side {
+  width: 22px;
+  background: linear-gradient(#000080, #1084d0);
+  color: #fff;
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  font-weight: bold;
+  font-size: 16px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding: 6px 0;
+  letter-spacing: 1px;
+}
+
+.start-menu-items {
+  flex: 1;
+  padding: 2px;
+}
+
+.start-menu-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 8px;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.start-menu-item img {
+  width: 24px;
+  height: 24px;
+  image-rendering: pixelated;
+}
+
+.start-menu-item:hover {
+  background: #000080;
+  color: #fff;
+}
+
+/* ---------- Windows ---------- */
+
+.win98-window {
+  position: absolute;
+  background: #c0c0c0;
+  border: 2px solid;
+  border-color: #fff #000 #000 #fff;
+  box-shadow: 2px 2px 8px rgba(0,0,0,0.6);
+  display: flex;
+  flex-direction: column;
+  z-index: 100;
+  min-width: 260px;
+}
+
+.win98-window[hidden] {
+  display: none;
+}
+
+.win98-titlebar {
+  background: linear-gradient(90deg, #000080, #1084d0);
+  color: #fff;
+  font-weight: bold;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  padding: 3px 4px;
+  cursor: default;
+  gap: 6px;
+}
+
+.win98-titlebar img {
+  width: 16px;
+  height: 16px;
+  image-rendering: pixelated;
+}
+
+.win98-titlebar span {
+  flex: 1;
+}
+
+.win98-titlebar-btn {
+  width: 18px;
+  height: 16px;
+  background: #c0c0c0;
+  border: 1px solid;
+  border-color: #fff #000 #000 #fff;
+  color: #000;
+  font-size: 11px;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.win98-titlebar-btn:active {
+  border-color: #000 #fff #fff #000;
+}
+
+.win98-window-body {
+  padding: 12px;
+  overflow: auto;
+}
+
+/* ---------- Contact form ---------- */
+
+#contactWindow {
+  width: 380px;
+}
+
+.contact-intro {
+  font-size: 13px;
+  line-height: 1.5;
+  margin: 0 0 10px;
+}
+
+.contact-form-row {
+  display: flex;
+  gap: 10px;
+}
+
+.contact-field {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  font-size: 12px;
+  margin-bottom: 8px;
+}
+
+.contact-field input,
+.contact-field textarea {
+  font-family: "MS Sans Serif", Tahoma, sans-serif;
+  font-size: 13px;
+  border: 2px solid;
+  border-color: #808080 #fff #fff #808080;
+  padding: 3px 4px;
+  background: #fff;
+  margin-top: 3px;
+}
+
+.contact-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 6px;
+}
+
+.contact-actions button {
+  font-family: "MS Sans Serif", Tahoma, sans-serif;
+  font-size: 13px;
+  padding: 4px 16px;
+}
+
+/* ---------- Recycle bin ---------- */
+
+#binWindow .win98-window-body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 120px;
+  font-size: 13px;
+  color: #444;
+  gap: 8px;
+}
+
+/* ---------- Solitaire ---------- */
+
+#solitaireWindow {
+  width: 700px;
+}
+
+#solitaireWindow .win98-window-body {
+  background: #008000;
+  padding: 12px;
+}
+
+#solitaireBoard {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.sol-stock, .sol-waste {
+  width: 64px;
+  height: 90px;
+}
+
+.sol-foundations {
+  display: flex;
+  gap: 10px;
+  margin-left: 40px;
+}
+
+.sol-tableau {
+  display: flex;
+  gap: 10px;
+}
+
+.sol-pile {
+  width: 64px;
+  height: 90px;
+  border: 2px solid rgba(255,255,255,0.4);
+  border-radius: 4px;
+  position: relative;
+}
+
+.sol-tableau .sol-pile {
+  height: 320px;
+  border: none;
+}
+
+.sol-card {
+  position: absolute;
+  width: 64px;
+  height: 90px;
+  border-radius: 4px;
+  border: 1px solid #000;
+  background: #fff;
+  box-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+  font-size: 14px;
+  font-weight: bold;
+  padding: 3px 4px;
+  cursor: pointer;
+  user-select: none;
+  touch-action: none;
+}
+
+.sol-card.red { color: #c00; }
+.sol-card.black { color: #000; }
+
+.sol-card.face-down {
+  background: repeating-linear-gradient(45deg, #1084d0, #1084d0 4px, #000080 4px, #000080 8px);
+}
+
+.sol-card.dragging {
+  z-index: 900;
+  opacity: 0.9;
+}
+
+.sol-card-corner {
+  position: absolute;
+  top: 3px;
+  left: 4px;
+  line-height: 1.1;
+}
+
+.sol-card-suit-big {
+  position: absolute;
+  bottom: 4px;
+  right: 6px;
+  font-size: 20px;
+}
+
+.sol-controls {
+  margin-top: 10px;
+}
+
+.sol-controls button {
+  font-family: "MS Sans Serif", Tahoma, sans-serif;
+  font-size: 12px;
+  padding: 3px 10px;
+}
+
+.sol-win-message {
+  color: #fff;
+  font-weight: bold;
+  margin-top: 10px;
+}
