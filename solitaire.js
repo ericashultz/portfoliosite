@@ -79,7 +79,7 @@
 
   function render() {
     renderSimplePile("solStock", state.stock.length ? [state.stock[state.stock.length - 1]] : [], false);
-    renderSimplePile("solWaste", state.waste.length ? [state.waste[state.waste.length - 1]] : [], false);
+    renderSimplePile("solWaste", state.waste.slice(-2), false);
 
     SUITS.forEach(function (suit) {
       var pile = state.foundations[suit];
