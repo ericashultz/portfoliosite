@@ -32,10 +32,15 @@
   });
 
   document.querySelectorAll(".win98-window").forEach(function (win) {
-    win.addEventListener("mousedown", function () {
+    win.addEventListener("pointerdown", function () {
       bringToFront(win);
     });
   });
+
+  var MOBILE_QUERY = "(max-width: 720px)";
+  function isMobile() {
+    return window.matchMedia(MOBILE_QUERY).matches;
+  }
 
   /* ---------- Drag helper (windows by titlebar, icons by whole element) ---------- */
 
@@ -43,22 +48,26 @@
     opts = opts || {};
     var dragging = false;
     var moved = false;
-    var startX, startY, origLeft, origTop;
+    var startX, startY, origLeft, origTop, pointerId;
 
-    handle.addEventListener("mousedown", function (e) {
+    handle.addEventListener("pointerdown", function (e) {
       if (e.button !== 0) return;
+      if (opts.pinnedOnMobile && isMobile()) return;
+
       dragging = true;
       moved = false;
+      pointerId = e.pointerId;
       startX = e.clientX;
       startY = e.clientY;
       var rect = target.getBoundingClientRect();
       var parentRect = target.offsetParent.getBoundingClientRect();
       origLeft = rect.left - parentRect.left;
       origTop = rect.top - parentRect.top;
+      if (handle.setPointerCapture) handle.setPointerCapture(pointerId);
       e.preventDefault();
     });
 
-    document.addEventListener("mousemove", function (e) {
+    handle.addEventListener("pointermove", function (e) {
       if (!dragging) return;
       var dx = e.clientX - startX;
       var dy = e.clientY - startY;
@@ -70,11 +79,14 @@
       }
     });
 
-    document.addEventListener("mouseup", function () {
+    function endDrag() {
       if (!dragging) return;
       dragging = false;
       if (opts.onDragEnd) opts.onDragEnd(moved);
-    });
+    }
+
+    handle.addEventListener("pointerup", endDrag);
+    handle.addEventListener("pointercancel", endDrag);
 
     return { wasMoved: function () { return moved; } };
   }
@@ -134,7 +146,7 @@
 
   document.querySelectorAll(".win98-window").forEach(function (win) {
     var handle = win.querySelector("[data-drag-handle]");
-    if (handle) makeDraggable(handle, win, {});
+    if (handle) makeDraggable(handle, win, { pinnedOnMobile: true });
   });
 
   /* ---------- Start menu ---------- */

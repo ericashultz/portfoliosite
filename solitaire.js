@@ -16,6 +16,10 @@
     return !!RED_SUITS[suit];
   }
 
+  function cardOffset() {
+    return window.matchMedia("(max-width: 720px)").matches ? 16 : 22;
+  }
+
   function newDeck() {
     var deck = [];
     SUITS.forEach(function (suit) {
@@ -104,10 +108,11 @@
   function renderTableauPile(elId, cards) {
     var container = document.getElementById(elId);
     container.innerHTML = "";
+    var offset = cardOffset();
     cards.forEach(function (card, idx) {
       var el = makeCardEl(card);
       el.style.left = "0px";
-      el.style.top = (idx * 22) + "px";
+      el.style.top = (idx * offset) + "px";
       attachHandlers(el, card);
       container.appendChild(el);
     });
@@ -176,12 +181,14 @@
   }
 
   function attachHandlers(el, card) {
+    card.el = el;
+
     el.addEventListener("dblclick", function (e) {
       e.stopPropagation();
       tryAutoToFoundation(card);
     });
 
-    el.addEventListener("mousedown", function (e) {
+    el.addEventListener("pointerdown", function (e) {
       if (e.button !== 0) return;
       var loc = locatePile(card);
       if (!loc) return;
@@ -217,12 +224,15 @@
     dragProxy.style.pointerEvents = "none";
     dragProxy.style.zIndex = 9999;
 
+    var offset = cardOffset();
     stack.forEach(function (card, i) {
       var el = makeCardEl(card);
       el.style.position = "absolute";
       el.style.left = "0px";
-      el.style.top = (i * 22) + "px";
+      el.style.top = (i * offset) + "px";
       dragProxy.appendChild(el);
+
+      if (card.el) card.el.style.visibility = "hidden";
     });
     document.body.appendChild(dragProxy);
 
@@ -234,8 +244,9 @@
     }
 
     function onUp(e) {
-      document.removeEventListener("mousemove", onMove);
-      document.removeEventListener("mouseup", onUp);
+      document.removeEventListener("pointermove", onMove);
+      document.removeEventListener("pointerup", onUp);
+      document.removeEventListener("pointercancel", onUp);
       dragProxy.style.display = "none";
       var dropTarget = document.elementFromPoint(e.clientX, e.clientY);
       document.body.removeChild(dragProxy);
@@ -245,8 +256,9 @@
       handleDrop(stack, loc, pileEl);
     }
 
-    document.addEventListener("mousemove", onMove);
-    document.addEventListener("mouseup", onUp);
+    document.addEventListener("pointermove", onMove);
+    document.addEventListener("pointerup", onUp);
+    document.addEventListener("pointercancel", onUp);
   }
 
   function handleDrop(stack, loc, pileEl) {

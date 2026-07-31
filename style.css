@@ -242,6 +242,7 @@ body {
   padding: 3px 4px;
   cursor: default;
   gap: 6px;
+  touch-action: none;
 }
 
 .win98-titlebar img {
@@ -442,4 +443,85 @@ body {
   color: #fff;
   font-weight: bold;
   margin-top: 10px;
+}
+
+/* ---------- Mobile: contact / recycle bin / solitaire windows ---------- */
+
+@media (max-width: 720px) {
+  .win98-window {
+    position: fixed !important;
+    left: 6px !important;
+    right: 6px !important;
+    top: 40px !important;
+    width: auto !important;
+    max-height: calc(100dvh - 80px) !important;
+  }
+
+  .win98-window-body {
+    max-height: calc(100dvh - 110px);
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .win98-titlebar-btn {
+    min-width: 30px;
+    min-height: 28px;
+  }
+
+  .contact-form-row {
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .contact-field input,
+  .contact-field textarea,
+  .contact-actions button {
+    font-size: 16px; /* avoids iOS auto-zoom on focus */
+  }
+
+  #solitaireWindow .win98-window-body {
+    padding: 8px;
+  }
+
+  #solitaireBoard {
+    gap: 4px;
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+  }
+
+  .sol-foundations {
+    gap: 4px;
+    margin-left: 10px;
+  }
+
+  .sol-tableau {
+    gap: 4px;
+  }
+
+  .sol-stock, .sol-waste, .sol-pile, .sol-card {
+    width: 42px;
+    height: 60px;
+  }
+
+  .sol-tableau .sol-pile {
+    height: 230px;
+  }
+
+  .sol-card {
+    font-size: 9px;
+    padding: 2px 3px;
+  }
+
+  .sol-card-suit-big {
+    font-size: 13px;
+    right: 3px;
+    bottom: 2px;
+  }
+
+  .sol-controls {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
 }
