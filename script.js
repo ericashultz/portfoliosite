@@ -136,6 +136,7 @@
         openWindow("binWindow");
         break;
       case "vans-work":
+        window.open("https://www.ericashultz.com/", "_blank");
         break;
       default:
         break;

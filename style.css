@@ -468,13 +468,19 @@ body {
 
 @media (max-width: 720px) {
   .desktop-watermark {
-    top: 50%;
+    top: 20px;
     left: auto;
-    right: 8.5vw;
-    transform: translateY(-50%) rotate(180deg);
+    right: 20px;
+    transform: rotate(180deg);
     writing-mode: vertical-rl;
     font-size: clamp(32px, 11.24vh, 110px);
     letter-spacing: normal;
+  }
+
+  .icon[data-action="recycle-bin"] {
+    left: auto !important;
+    right: 20px !important;
+    top: 470px !important;
   }
 
   .win98-window {
