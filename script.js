@@ -53,6 +53,7 @@
     handle.addEventListener("pointerdown", function (e) {
       if (e.button !== 0) return;
       if (opts.pinnedOnMobile && isMobile()) return;
+      if (e.target.closest && e.target.closest("[data-close]")) return;
 
       dragging = true;
       moved = false;
