@@ -454,18 +454,18 @@ body {
 }
 
 .sol-corner-rank {
-  font-size: 11px;
+  font-size: 10px;
 }
 
 .sol-corner-suit {
-  font-size: 10px;
+  font-size: 9px;
   margin-top: 1px;
 }
 
 .sol-pip {
   position: absolute;
   transform: translate(-50%, -50%);
-  font-size: 10px;
+  font-size: 9px;
   line-height: 1;
 }
 
@@ -477,10 +477,10 @@ body {
 
 .sol-face {
   position: absolute;
-  top: 20px;
-  left: 8px;
-  right: 8px;
-  bottom: 20px;
+  top: 24px;
+  left: 11px;
+  right: 11px;
+  bottom: 24px;
   border: 1px solid currentColor;
   border-radius: 2px;
   display: flex;
@@ -491,13 +491,13 @@ body {
 }
 
 .sol-face-letter {
-  font-size: 24px;
+  font-size: 22px;
   font-weight: bold;
   line-height: 1;
 }
 
 .sol-face-suit {
-  font-size: 16px;
+  font-size: 14px;
   line-height: 1;
 }
 
@@ -594,16 +594,26 @@ body {
     padding: 2px 3px;
   }
 
+  .sol-card-corner-tl {
+    top: 2px;
+    left: 2px;
+  }
+
+  .sol-card-corner-br {
+    bottom: 2px;
+    right: 2px;
+  }
+
   .sol-corner-rank {
-    font-size: 8px;
+    font-size: 7px;
   }
 
   .sol-corner-suit {
-    font-size: 7px;
+    font-size: 6px;
   }
 
   .sol-pip {
-    font-size: 7px;
+    font-size: 6px;
   }
 
   .sol-pip-ace {
@@ -611,18 +621,19 @@ body {
   }
 
   .sol-face {
-    top: 14px;
-    left: 5px;
-    right: 5px;
-    bottom: 14px;
+    top: 18px;
+    left: 8px;
+    right: 8px;
+    bottom: 18px;
+    gap: 1px;
   }
 
   .sol-face-letter {
-    font-size: 16px;
+    font-size: 13px;
   }
 
   .sol-face-suit {
-    font-size: 11px;
+    font-size: 8px;
   }
 
   .sol-controls {
