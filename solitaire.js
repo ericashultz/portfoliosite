@@ -6,6 +6,18 @@
   var RED_SUITS = { H: true, D: true };
   var RANK_LABEL = { 1: "A", 11: "J", 12: "Q", 13: "K" };
 
+  var PIP_LAYOUTS = {
+    2: [[50, 20], [50, 80]],
+    3: [[50, 20], [50, 50], [50, 80]],
+    4: [[25, 20], [75, 20], [25, 80], [75, 80]],
+    5: [[25, 20], [75, 20], [50, 50], [25, 80], [75, 80]],
+    6: [[25, 20], [75, 20], [25, 50], [75, 50], [25, 80], [75, 80]],
+    7: [[25, 20], [75, 20], [25, 50], [75, 50], [25, 80], [75, 80], [50, 35]],
+    8: [[25, 20], [75, 20], [25, 50], [75, 50], [25, 80], [75, 80], [50, 35], [50, 65]],
+    9: [[25, 15], [75, 15], [25, 38], [75, 38], [50, 50], [25, 62], [75, 62], [25, 85], [75, 85]],
+    10: [[25, 12], [75, 12], [50, 25], [25, 37], [75, 37], [25, 63], [75, 63], [50, 75], [25, 88], [75, 88]]
+  };
+
   var state = null;
 
   function rankLabel(r) {
@@ -52,7 +64,7 @@
     state = {
       stock: stock,
       waste: [],
-      foundations: { S: [], H: [], D: [], C: [] },
+      foundations: [[], [], [], []],
       tableau: tableau
     };
 
@@ -60,19 +72,70 @@
     render();
   }
 
+  function makeCorner(card, isBottomRight) {
+    var corner = document.createElement("div");
+    corner.className = "sol-card-corner " + (isBottomRight ? "sol-card-corner-br" : "sol-card-corner-tl");
+
+    var rankEl = document.createElement("div");
+    rankEl.className = "sol-corner-rank";
+    rankEl.textContent = rankLabel(card.rank);
+    corner.appendChild(rankEl);
+
+    var suitEl = document.createElement("div");
+    suitEl.className = "sol-corner-suit";
+    suitEl.textContent = SUIT_SYMBOL[card.suit];
+    corner.appendChild(suitEl);
+
+    return corner;
+  }
+
+  function makePip(suitSymbol, x, y) {
+    var pip = document.createElement("span");
+    pip.className = "sol-pip";
+    pip.textContent = suitSymbol;
+    pip.style.left = x + "%";
+    pip.style.top = y + "%";
+    if (y > 50) pip.style.transform = "translate(-50%, -50%) rotate(180deg)";
+    return pip;
+  }
+
+  function makeFace(card) {
+    var frame = document.createElement("div");
+    frame.className = "sol-face";
+
+    var letter = document.createElement("div");
+    letter.className = "sol-face-letter";
+    letter.textContent = rankLabel(card.rank);
+    frame.appendChild(letter);
+
+    var suitEl = document.createElement("div");
+    suitEl.className = "sol-face-suit";
+    suitEl.textContent = SUIT_SYMBOL[card.suit];
+    frame.appendChild(suitEl);
+
+    return frame;
+  }
+
   function makeCardEl(card) {
     var el = document.createElement("div");
     el.className = "sol-card " + (card.faceUp ? (isRed(card.suit) ? "red" : "black") : "face-down");
     if (card.faceUp) {
-      var corner = document.createElement("div");
-      corner.className = "sol-card-corner";
-      corner.textContent = rankLabel(card.rank) + " " + SUIT_SYMBOL[card.suit];
-      el.appendChild(corner);
+      el.appendChild(makeCorner(card, false));
+      el.appendChild(makeCorner(card, true));
 
-      var big = document.createElement("div");
-      big.className = "sol-card-suit-big";
-      big.textContent = SUIT_SYMBOL[card.suit];
-      el.appendChild(big);
+      if (card.rank === 1) {
+        var acePip = document.createElement("span");
+        acePip.className = "sol-pip sol-pip-ace";
+        acePip.textContent = SUIT_SYMBOL[card.suit];
+        el.appendChild(acePip);
+      } else if (card.rank >= 11) {
+        el.appendChild(makeFace(card));
+      } else {
+        var layout = PIP_LAYOUTS[card.rank] || [];
+        layout.forEach(function (pos) {
+          el.appendChild(makePip(SUIT_SYMBOL[card.suit], pos[0], pos[1]));
+        });
+      }
     }
     return el;
   }
@@ -81,10 +144,10 @@
     renderSimplePile("solStock", state.stock.length ? [state.stock[state.stock.length - 1]] : [], false);
     renderSimplePile("solWaste", state.waste.slice(-2), false);
 
-    SUITS.forEach(function (suit) {
-      var pile = state.foundations[suit];
-      renderSimplePile("foundation-" + suit, pile.length ? [pile[pile.length - 1]] : [], false);
-    });
+    for (var f = 0; f < state.foundations.length; f++) {
+      var pile = state.foundations[f];
+      renderSimplePile("foundation-" + f, pile.length ? [pile[pile.length - 1]] : [], false);
+    }
 
     for (var col = 0; col < 7; col++) {
       renderTableauPile("tableau-" + col, state.tableau[col]);
@@ -120,8 +183,8 @@
 
   function locatePile(card) {
     if (state.waste.indexOf(card) !== -1) return { type: "waste", pile: state.waste };
-    for (var s in state.foundations) {
-      if (state.foundations[s].indexOf(card) !== -1) return { type: "foundation", suit: s, pile: state.foundations[s] };
+    for (var f = 0; f < state.foundations.length; f++) {
+      if (state.foundations[f].indexOf(card) !== -1) return { type: "foundation", index: f, pile: state.foundations[f] };
     }
     for (var col = 0; col < 7; col++) {
       var idx = state.tableau[col].indexOf(card);
@@ -141,11 +204,26 @@
     return null;
   }
 
-  function canDropOnFoundation(card, suit) {
-    var pile = state.foundations[suit];
-    if (card.suit !== suit) return false;
+  function canDropOnFoundation(card, foundationIndex) {
+    var pile = state.foundations[foundationIndex];
     if (pile.length === 0) return card.rank === 1;
-    return pile[pile.length - 1].rank === card.rank - 1;
+    var top = pile[pile.length - 1];
+    return top.suit === card.suit && top.rank === card.rank - 1;
+  }
+
+  function findFoundationIndexFor(card) {
+    for (var i = 0; i < state.foundations.length; i++) {
+      var pile = state.foundations[i];
+      if (pile.length > 0 && pile[pile.length - 1].suit === card.suit) {
+        return canDropOnFoundation(card, i) ? i : -1;
+      }
+    }
+    if (card.rank === 1) {
+      for (var j = 0; j < state.foundations.length; j++) {
+        if (state.foundations[j].length === 0) return j;
+      }
+    }
+    return -1;
   }
 
   function canDropOnTableau(bottomCard, col) {
@@ -170,14 +248,12 @@
     if (!loc) return false;
     var stack = movingStackFor(loc);
     if (!stack || stack.length !== 1) return false;
-    var suit = card.suit;
-    if (canDropOnFoundation(card, suit)) {
-      removeFromSource(loc, stack);
-      state.foundations[suit].push(card);
-      render();
-      return true;
-    }
-    return false;
+    var index = findFoundationIndexFor(card);
+    if (index === -1) return false;
+    removeFromSource(loc, stack);
+    state.foundations[index].push(card);
+    render();
+    return true;
   }
 
   function attachHandlers(el, card) {
@@ -267,10 +343,10 @@
     var bottomCard = stack[0];
 
     if (pileEl.classList.contains("sol-foundation")) {
-      var suit = pileEl.getAttribute("data-suit");
-      if (stack.length === 1 && canDropOnFoundation(bottomCard, suit)) {
+      var foundationIndex = parseInt(pileEl.getAttribute("data-foundation"), 10);
+      if (stack.length === 1 && canDropOnFoundation(bottomCard, foundationIndex)) {
         removeFromSource(loc, stack);
-        state.foundations[suit].push(bottomCard);
+        state.foundations[foundationIndex].push(bottomCard);
       }
       render();
       return;
@@ -292,7 +368,7 @@
 
   function checkWin() {
     var total = 0;
-    SUITS.forEach(function (s) { total += state.foundations[s].length; });
+    state.foundations.forEach(function (pile) { total += pile.length; });
     document.getElementById("solWinMessage").hidden = total !== 52;
   }
 

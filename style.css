@@ -436,16 +436,69 @@ body {
 
 .sol-card-corner {
   position: absolute;
-  top: 3px;
-  left: 4px;
-  line-height: 1.1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  line-height: 1;
 }
 
-.sol-card-suit-big {
+.sol-card-corner-tl {
+  top: 3px;
+  left: 3px;
+}
+
+.sol-card-corner-br {
+  bottom: 3px;
+  right: 3px;
+  transform: rotate(180deg);
+}
+
+.sol-corner-rank {
+  font-size: 11px;
+}
+
+.sol-corner-suit {
+  font-size: 10px;
+  margin-top: 1px;
+}
+
+.sol-pip {
   position: absolute;
-  bottom: 4px;
-  right: 6px;
-  font-size: 20px;
+  transform: translate(-50%, -50%);
+  font-size: 10px;
+  line-height: 1;
+}
+
+.sol-pip-ace {
+  left: 50%;
+  top: 50%;
+  font-size: 30px;
+}
+
+.sol-face {
+  position: absolute;
+  top: 20px;
+  left: 8px;
+  right: 8px;
+  bottom: 20px;
+  border: 1px solid currentColor;
+  border-radius: 2px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+}
+
+.sol-face-letter {
+  font-size: 24px;
+  font-weight: bold;
+  line-height: 1;
+}
+
+.sol-face-suit {
+  font-size: 16px;
+  line-height: 1;
 }
 
 .sol-controls {
@@ -541,10 +594,35 @@ body {
     padding: 2px 3px;
   }
 
-  .sol-card-suit-big {
-    font-size: 13px;
-    right: 3px;
-    bottom: 2px;
+  .sol-corner-rank {
+    font-size: 8px;
+  }
+
+  .sol-corner-suit {
+    font-size: 7px;
+  }
+
+  .sol-pip {
+    font-size: 7px;
+  }
+
+  .sol-pip-ace {
+    font-size: 20px;
+  }
+
+  .sol-face {
+    top: 14px;
+    left: 5px;
+    right: 5px;
+    bottom: 14px;
+  }
+
+  .sol-face-letter {
+    font-size: 16px;
+  }
+
+  .sol-face-suit {
+    font-size: 11px;
   }
 
   .sol-controls {
