@@ -173,11 +173,6 @@ body {
   image-rendering: pixelated;
 }
 
-#clockTime {
-  position: relative;
-  top: 2px;
-}
-
 /* ---------- Start menu ---------- */
 
 #startMenu {
@@ -531,8 +526,12 @@ body {
     right: 20px;
     transform: rotate(180deg);
     writing-mode: vertical-rl;
-    font-size: clamp(32px, 11.24vh, 110px);
+    font-size: 90px;
     letter-spacing: normal;
+  }
+
+  #clockTime {
+    line-height: 16px;
   }
 
   .win98-window {
