@@ -534,6 +534,12 @@ body {
     line-height: 16px;
   }
 
+  @supports (-webkit-touch-callout: none) {
+    #clockTime {
+      line-height: 12px;
+    }
+  }
+
   .win98-window {
     position: fixed !important;
     left: 6px !important;
