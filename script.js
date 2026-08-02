@@ -182,9 +182,8 @@
 
   startBtn.addEventListener("click", function (e) {
     e.stopPropagation();
-    var isHidden = startMenu.hidden;
-    startMenu.hidden = !isHidden;
-    startBtn.classList.toggle("active", !isHidden ? true : false);
+    startMenu.hidden = !startMenu.hidden;
+    startBtn.classList.toggle("active", !startMenu.hidden);
   });
 
   document.addEventListener("click", function (e) {

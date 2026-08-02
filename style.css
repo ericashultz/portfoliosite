@@ -173,6 +173,11 @@ body {
   image-rendering: pixelated;
 }
 
+#clockTime {
+  position: relative;
+  top: 2px;
+}
+
 /* ---------- Start menu ---------- */
 
 #startMenu {
