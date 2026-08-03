@@ -175,6 +175,60 @@
     if (handle) makeDraggable(handle, win, { pinnedOnMobile: true });
   });
 
+  /* ---------- Solitaire window resize ---------- */
+
+  var solitaireWindow = document.getElementById("solitaireWindow");
+  var solitaireResizeHandle = document.getElementById("solitaireResizeHandle");
+
+  if (solitaireWindow && solitaireResizeHandle) {
+    var RESIZE_BASE_WIDTH = 700;
+    var RESIZE_MIN_ZOOM = 0.6;
+    var RESIZE_MAX_ZOOM = 1.8;
+    var resizing = false;
+    var resizeStartX, resizeStartY, resizeStartZoom;
+
+    solitaireResizeHandle.addEventListener("pointerdown", function (e) {
+      if (e.button !== 0) return;
+      if (isMobile()) return;
+
+      resizing = true;
+      resizeStartX = e.clientX;
+      resizeStartY = e.clientY;
+      resizeStartZoom = parseFloat(solitaireWindow.style.zoom) || 1;
+      bringToFront(solitaireWindow);
+      if (solitaireResizeHandle.setPointerCapture) solitaireResizeHandle.setPointerCapture(e.pointerId);
+      e.preventDefault();
+      e.stopPropagation();
+    });
+
+    solitaireResizeHandle.addEventListener("pointermove", function (e) {
+      if (!resizing) return;
+      var dx = e.clientX - resizeStartX;
+      var dy = e.clientY - resizeStartY;
+      var delta = (dx + dy) / 2;
+      var newZoom = resizeStartZoom + delta / RESIZE_BASE_WIDTH;
+      if (newZoom < RESIZE_MIN_ZOOM) newZoom = RESIZE_MIN_ZOOM;
+      if (newZoom > RESIZE_MAX_ZOOM) newZoom = RESIZE_MAX_ZOOM;
+      solitaireWindow.style.zoom = newZoom;
+    });
+
+    function endSolitaireResize() {
+      resizing = false;
+    }
+
+    solitaireResizeHandle.addEventListener("pointerup", endSolitaireResize);
+    solitaireResizeHandle.addEventListener("pointercancel", endSolitaireResize);
+
+    function resetSolitaireZoomForMobile() {
+      if (isMobile() && solitaireWindow.style.zoom) {
+        solitaireWindow.style.zoom = "";
+      }
+    }
+
+    resetSolitaireZoomForMobile();
+    window.addEventListener("resize", resetSolitaireZoomForMobile);
+  }
+
   /* ---------- Start menu ---------- */
 
   var startBtn = document.getElementById("startBtn");

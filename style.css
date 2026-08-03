@@ -369,6 +369,18 @@ body {
   width: 700px;
 }
 
+.win98-resize-handle {
+  position: absolute;
+  right: 1px;
+  bottom: 1px;
+  width: 14px;
+  height: 14px;
+  cursor: nwse-resize;
+  background:
+    linear-gradient(135deg, transparent 0 40%, #808080 40% 46%, transparent 46% 60%, #808080 60% 66%, transparent 66% 80%, #808080 80% 86%, transparent 86%);
+  touch-action: none;
+}
+
 #solitaireWindow .win98-window-body {
   background: #008000;
   padding: 12px;
@@ -523,6 +535,10 @@ body {
 /* ---------- Mobile: contact / recycle bin / solitaire windows ---------- */
 
 @media (max-width: 720px) {
+  .win98-resize-handle {
+    display: none;
+  }
+
   .desktop-watermark {
     top: 20px;
     left: auto;
